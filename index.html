@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+    <title>Ruby Clicker</title>
+    <link rel="icon" type="image/png" href="assets/ruby.png">
+    <link href="https://fonts.googleapis.com/css?family=Risque" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="default.css">
+    <link rel="stylesheet" type="text/css" href="vuetify.min.css">
+    <link rel="stylesheet" type="text/css" href="core.css">
+  </head>
+  <body>
+    <div id="foxi">
+      <v-app>
+        <v-content>
+          <v-container class="bloc">
+            <v-tabs light grow :scrollable="false">
+              <v-tabs-bar class="rg-light-gray">
+                <v-tabs-slider class="rg-blue"></v-tabs-slider>
+                <v-tabs-item key="main" href="main">Game</v-tabs-item>
+                <v-tabs-item key="statistic" href="statistic">Statistic</v-tabs-item>
+              </v-tabs-bar>
+              <v-tabs-items>
+                <v-tabs-content id="main">
+                  <!-- ruby container -->
+                  <v-container class="bloc">
+                    <v-layout row elevation-2>
+                      <v-flex>
+                        <v-card flat tile>
+                          <v-card-text id="rubyTitle" v-bind="ruby">{{ shortMoney(ruby) + " rub" + (ruby > 1 ? "ies" : "y") }} / <small>per second : {{ shortMoney(CpS) }}</small></v-card-text>
+                          <v-card-text style="height: 400px;">
+                            <div @click="createRuby()" id="target">
+                              <div class="bg"></div>
+                              <div class="overlay"></div>
+                            </div>
+                          </v-card-text>
+                          <v-card-text>
+                        </v-card>
+                      </v-flex>
+                    </v-layout>
+                  </v-container>
+
+                  <v-container class="bloc">
+                    <!-- bonus availables -->
+                    <v-subheader>Shop</v-subheader>
+                    <v-layout row wrap text-xs-center elevation-2 style="background: white;">
+                      <v-flex xs3 v-for="(item, key, index) in components.bonus" v-if="showBonus(item), item.cost == -1 || (item.active && !item.buy)">
+                        <v-card tile flat>
+                          <v-list two-line class="pa-0">
+                            <v-list-tile @click="selectedMode = key">
+                              <v-list-tile-avatar>
+                                <v-icon class="vj-fa material-icons icon" v-bind:class="{ 'error--text': key == selectedMode }">{{ "fa-" + item.icon }}</v-icon>
+                              </v-list-tile-avatar>
+                              <v-list-tile-content>
+                                <v-list-tile-title v-bind:class="{ 'error--text': key == selectedMode }">{{ item.title }}</v-list-tile-title>
+                                <v-list-tile-sub-title>{{ item.subtitle }}</v-list-tile-sub-title>
+                              </v-list-tile-content>
+                            </v-list-tile>
+                          </v-list>
+                        </v-card>
+                      </v-flex>
+                    </v-layout>
+
+                    <v-layout row elevation-2>
+                      <v-flex>
+                        <v-card tile flat dark v-bind="selectedMode">
+                          <v-card-text>
+                            <h2>{{ components.bonus[selectedMode].title }}</h2>
+                          </v-card-text>
+                          <v-card-text>
+                            <small>{{ components.bonus[selectedMode].subtitle }}</small><br>
+                            <span v-html="components.bonus[selectedMode].description"></span>
+                          </v-card-text>
+                          <v-card-text>
+                             <v-btn v-if="!components.bonus[selectedMode].buy" color="error" @click="addBonus(components.bonus[selectedMode])">Buy for {{ shortMoney(components.bonus[selectedMode].cost) }} <img style="width: 20px; margin-left: 7px;" src="assets/ruby.png"></v-btn>
+                          </v-card-text>
+                        </v-card>
+                      </v-flex>
+                    </v-layout>
+
+                    <!-- buildings -->
+                    <v-subheader>Buildings</v-subheader>
+                    <v-layout row wrap text-xs-center elevation-2>
+                      <v-flex xs3 v-for="(item, key, index) in components.buildings">
+                        <v-card tile flat>
+                          <v-list v-if="item.active" two-line class="pa-0">
+                            <v-list-tile @click="addItem(item)" class="yellow lighten-4">
+                              <v-list-tile-avatar>
+                                <v-icon class="vj-fa material-icons icon">{{ "fa-" + item.icon }}</v-icon>
+                              </v-list-tile-avatar>
+                              <v-list-tile-content>
+                                <v-list-tile-title>{{ item.title }} <small><strong>[{{ item.counter }}]</strong></small></v-list-tile-title>
+                                <v-list-tile-sub-title v-bind="item.counter">{{ shortMoney(cumulativePrice(item.cost, item.counter)) + " rubies" }}</v-list-tile-sub-title>
+                              </v-list-tile-content>
+                            </v-list-tile>
+                          </v-list>
+
+                          <v-list v-else two-line class="pa-0" style="opacity: 0.3" v-bind="ruby">
+                            <v-list-tile class="yellow lighten-4">
+                              <v-list-tile-avatar>
+                                <v-icon class="vj-fa material-icons icon">fa-question</v-icon>
+                              </v-list-tile-avatar>
+                              <v-list-tile-content>
+                                <v-list-tile-title>{{ showItem(item) }} ???</v-list-tile-title>
+                                <v-list-tile-sub-title>{{ shortMoney(item.cost) + " rubies" }}</v-list-tile-sub-title>
+                              </v-list-tile-content>
+                            </v-list-tile>
+                          </v-list>
+                        </v-card>
+                      </v-flex>
+                    </v-layout>
+
+                    <!-- bonus bought -->
+                    <v-subheader>Bonus bought</v-subheader>
+                    <v-layout row wrap text-xs-center elevation-2 style="background: white;">
+                      <v-list two-line>
+                        <v-list-tile avatar v-for="item in components.bonus" v-if="item.buy">
+                          <v-list-tile-avatar>
+                            <v-icon class="vj-fa material-icons icon">{{ "fa-" + item.icon }}</v-icon>
+                          </v-list-tile-avatar>
+                          <v-list-tile-content>
+                            <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+                            <v-list-tile-sub-title v-html="item.description"></v-list-tile-sub-title>
+                          </v-list-tile-content>
+                        </v-list-tile>
+                      </v-list>
+                    </v-layout>
+                  </v-container>
+                </v-tabs-content>
+                <v-tabs-content id="statistic">
+                  <v-card>
+                    <v-card-text>Joint</v-card-text>
+                  </v-card>
+                </v-tabs-content>
+              </v-tabs-items>
+            </v-tabs>
+          </v-container>
+        </v-content>
+      </v-app>
+    </div>
+
+    <script type="text/javascript" src="vue.min.js"></script>
+    <script type="text/javascript" src="vuetify.min.js"></script>
+    <script type="text/javascript" src="core.js"></script>
+  </body>
+</html>

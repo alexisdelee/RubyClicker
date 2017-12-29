@@ -36,7 +36,17 @@
                               <div class="overlay"></div>
                             </div>
                           </v-card-text>
+                        </v-card>
+                      </v-flex>
+                    </v-layout>
+
+                    <!-- reputation -->
+                    <v-layout row elevation-2>
+                      <v-flex>
+                        <v-card flat tile dark>
                           <v-card-text>
+                            <center>&#171; {{ components.tickers.filter((ticker) => { return manufacturedRuby >= ticker.cost }).slice(-1).pop().description }} &#187;</center>
+                          </v-card-text>
                         </v-card>
                       </v-flex>
                     </v-layout>
@@ -120,10 +130,10 @@
                     <v-flex>
                       <v-card tile flat dark>
                         <v-card-text>
-                          <span v-bind="ruby">Rubies in bank : {{ shortMoney(ruby) + " rub" + (ruby > 1 ? "ies" : "y") }}</span><br>
-                          <span v-bind="manufacturedRuby">Rubied baked : {{ shortMoney(manufacturedRuby) + " rub" + (manufacturedRuby > 1 ? "ies" : "y") }}</span><br>
+                          <span v-bind="ruby">Rubies in bank : {{ shortMoney(ruby) }}</span><br>
+                          <span v-bind="manufacturedRuby">Rubied baked : {{ shortMoney(manufacturedRuby) }}</span><br>
                           <span v-bind="buildingsOwned">{{ "Building" + (buildingsOwned > 1 ? "s" : "") + " owned : " + buildingsOwned }}</span><br>
-                          <span v-bind="CpS">Rubies per second : {{ CpS }}</span><br>
+                          <span v-bind="CpS">Rubies per second : {{ shortMoney(CpS) }}</span><br>
                           <span v-bind="click">Rubies per click : {{ click }}</span><br>
                           <span v-bind="rubyClick">Rubies clicks : {{ rubyClick }}</span>
                         </v-card-text>

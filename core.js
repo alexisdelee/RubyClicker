@@ -42,6 +42,34 @@ window.core = new Vue({
         { id: 9, icon: "magic", title: "Portal", cost: 75000000000, CpS: 1600000, counter: 0, active: false },
         { id: 10, icon: "clock-o", title: "Time Machine", cost: 1000000000000, CpS: 10000000, counter: 0, active: false },
         { id: 11, icon: "free-code-camp", title: "Antimatter Condenser", cost: 14000000000000, CpS: 65000000, counter: 0, active: false }
+      ],
+      tickers: [
+        { cost: 0, description: "You feel like making rubies. But nobody wants to buy your rubies." },
+        { cost: 5, description: "Your first creation goes in the trash. The neighborhood raccoon barely touches it." },
+        { cost: 50, description: "Your family accepts to buy some of your rubies." },
+        { cost: 100, description: "Your rubies are popular in the neighborhood." },
+        { cost: 500, description: "People are starting to talk about your rubies." },
+        { cost: 1000, description: "Your rubies are talked about for miles around." },
+        { cost: 5000, description: "Your rubies are renowned in the whole town!" },
+        { cost: 10000, description: "Your rubies bring all the boys to the yard." },
+        { cost: 50000, description: "Your rubies now have their own website!" },
+        { cost: 100000, description: "Your rubies are worth a lot of money." },
+        { cost: 500000, description: "Your rubies sell very well in distant countries." },
+        { cost: 1000000, description: "People come from very far away to buy your rubies." },
+        { cost: 5000000, description: "Kings and queens from all over the world are enjoying your rubies." },
+        { cost: 10000000, description: "There are now museums dedicated to your rubies." },
+        { cost: 500000000, description: "A national day has been created in honor of your rubies." },
+        { cost: 1000000000, description: "Your rubies have been named a part of the world wonders." },
+        { cost: 50000000000, description: "History books now include a whole chapter about your rubies." },
+        { cost: 100000000000, description: "Your rubies have been placed under government surveillance." },
+        { cost: 5000000000000, description: "The whole planet is enjoying your rubies!" },
+        { cost: 10000000000000, description: "Strange creatures from neighboring planets wish to buy your rubies." },
+        { cost: 50000000000000, description: "Elder gods from the whole cosmos have awoken to see your rubies." },
+        { cost: 100000000000000, description: "Beings from other dimensions lapse into existence juste to see your cookies." },
+        { cost: 500000000000000, description: "Your rubies have achieved sentience." },
+        { cost: 1000000000000000, description: "The universe has now turned into ruby glitter, to the molecular level." },
+        { cost: 5000000000000000, description: "Your rubies are rewriting the fundamental laws of the universe." },
+        { cost: 10000000000000000, description: "It's time to stop playing." }
       ]
     }
   },
@@ -64,7 +92,7 @@ window.core = new Vue({
       }
     },
     createRuby() {
-      let special = Math.random() <= 0.025;
+      let special = Math.random() <= 0.01;
       let ruby = document.createElement("div");
       ruby.classList.add("ruby");
 
@@ -75,13 +103,13 @@ window.core = new Vue({
       ruby.style.left = (event.clientX - 20) + "px";
 
       let valueContent = document.createElement("span");
-      valueContent.textContent = "+" + this.shortMoney((special ? 7777 * (this.click + this.CpS) : this.click)) + " rub" + ((special ? 7777 * (this.click + this.CpS) : this.click) > 1 ? "ies" : "y");
+      valueContent.textContent = "+" + this.shortMoney((special ? 777 * (this.click + this.CpS) : this.click)) + " rub" + ((special ? 777 * (this.click + this.CpS) : this.click) > 1 ? "ies" : "y");
 
       ruby.appendChild(valueContent);
       document.querySelector("body").appendChild(ruby);
 
-      this.ruby += (special ? 7777 * (this.click + this.CpS) : this.click);
-      this.manufacturedRuby += (special ? 7777 * (this.click + this.CpS) : this.click);
+      this.ruby += (special ? 777 * (this.click + this.CpS) : this.click);
+      this.manufacturedRuby += (special ? 777 * (this.click + this.CpS) : this.click);
       this.rubyClick++;
 
       let forwards = setInterval(() => {

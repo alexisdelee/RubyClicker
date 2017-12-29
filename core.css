@@ -78,6 +78,11 @@ div.ruby span {
   font-family: "Risque", cursive;
 }
 
+.mini-ruby {
+  width: 20px;
+  margin-left: 7px;
+}
+
 @keyframes outruby {
   0% { opacity: 1; }
   100% { opacity: 0; }

@@ -1,13 +1,16 @@
 window.core = new Vue({
-  el: "#foxi",
+  el: "#rubyclicker",
   data: {
     selectedMode: 0,
     click: 1,
+    rubyClick: 0,
     ruby: 0,
+    manufacturedRuby: 0,
     CpS: 0,
+    buildingsOwned: 0,
     components: {
       bonus: [
-        { icon: "star", related: 0, title: "First day", subtitle: "", description: "Welcome gift", cost: -1, active: true, buy: true },
+        { icon: "star", related: 0, title: "First day", subtitle: "", description: "Welcome gift.", cost: -1, active: true, buy: true },
         { icon: "mouse-pointer", related: 0, title: "Reinforced index finder", subtitle: "[upgrade]", description: "The mouse and cursors are <strong>twice</strong> as efficient.", cost: 100, active: false, buy: false },
         { icon: "mouse-pointer", related: 0, title: "Carpal tunnel prevention cream", subtitle: "[upgrade]", description: "The mouse and cursors are <strong>twice</strong> as efficient.", cost: 500, active: false, buy: false },
         { icon: "diamond", related: 1, title: "Forwards for jeweler", subtitle: "[upgrade]", description: "Jewelers are <strong>twice</strong> as efficient.", cost: 1000, active: false, buy: false },
@@ -78,6 +81,8 @@ window.core = new Vue({
       document.querySelector("body").appendChild(ruby);
 
       this.ruby += (special ? 7777 * (this.click + this.CpS) : this.click);
+      this.manufacturedRuby += (special ? 7777 * (this.click + this.CpS) : this.click);
+      this.rubyClick++;
 
       let forwards = setInterval(() => {
         ruby.style.top = (ruby.offsetTop - 3) + "px";
@@ -97,6 +102,7 @@ window.core = new Vue({
       if(this.ruby >= this.cumulativePrice(item.cost, item.counter)) {
         this.ruby -= this.cumulativePrice(item.cost, item.counter);
         this.CpS += item.CpS;
+        this.buildingsOwned++;
         item.counter += 1;
       }
     },
@@ -124,4 +130,5 @@ window.core = new Vue({
 
 setInterval(() => {
   core.ruby += core.CpS;
+  core.manufacturedRuby += core.CpS;
 }, 1000);

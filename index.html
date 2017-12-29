@@ -12,7 +12,7 @@
     <link rel="stylesheet" type="text/css" href="core.css">
   </head>
   <body>
-    <div id="foxi">
+    <div id="rubyclicker">
       <v-app>
         <v-content>
           <v-container class="bloc">
@@ -20,7 +20,7 @@
               <v-tabs-bar class="rg-light-gray">
                 <v-tabs-slider class="rg-blue"></v-tabs-slider>
                 <v-tabs-item key="main" href="main">Game</v-tabs-item>
-                <v-tabs-item key="statistic" href="statistic">Statistic</v-tabs-item>
+                <v-tabs-item key="statistic" href="statistic">Stats</v-tabs-item>
               </v-tabs-bar>
               <v-tabs-items>
                 <v-tabs-content id="main">
@@ -74,7 +74,7 @@
                             <span v-html="components.bonus[selectedMode].description"></span>
                           </v-card-text>
                           <v-card-text>
-                             <v-btn v-if="!components.bonus[selectedMode].buy" color="error" @click="addBonus(components.bonus[selectedMode])">Buy for {{ shortMoney(components.bonus[selectedMode].cost) }} <img style="width: 20px; margin-left: 7px;" src="assets/ruby.png"></v-btn>
+                             <v-btn v-if="!components.bonus[selectedMode].buy" color="error" @click="addBonus(components.bonus[selectedMode])">Buy for {{ shortMoney(components.bonus[selectedMode].cost) }} <img class="mini-ruby" src="assets/ruby.png"></v-btn>
                           </v-card-text>
                         </v-card>
                       </v-flex>
@@ -111,28 +111,41 @@
                         </v-card>
                       </v-flex>
                     </v-layout>
-
-                    <!-- bonus bought -->
-                    <v-subheader>Bonus bought</v-subheader>
-                    <v-layout row wrap text-xs-center elevation-2 style="background: white;">
-                      <v-list two-line>
-                        <v-list-tile avatar v-for="item in components.bonus" v-if="item.buy">
-                          <v-list-tile-avatar>
-                            <v-icon class="vj-fa material-icons icon">{{ "fa-" + item.icon }}</v-icon>
-                          </v-list-tile-avatar>
-                          <v-list-tile-content>
-                            <v-list-tile-title>{{ item.title }}</v-list-tile-title>
-                            <v-list-tile-sub-title v-html="item.description"></v-list-tile-sub-title>
-                          </v-list-tile-content>
-                        </v-list-tile>
-                      </v-list>
-                    </v-layout>
                   </v-container>
                 </v-tabs-content>
                 <v-tabs-content id="statistic">
-                  <v-card>
-                    <v-card-text>Joint</v-card-text>
-                  </v-card>
+                  <!-- general stats -->
+                  <v-subheader>General</v-subheader>
+                  <v-layout row elevation-2>
+                    <v-flex>
+                      <v-card tile flat dark>
+                        <v-card-text>
+                          <span v-bind="ruby">Rubies in bank : {{ shortMoney(ruby) + " rub" + (ruby > 1 ? "ies" : "y") }}</span><br>
+                          <span v-bind="manufacturedRuby">Rubied baked : {{ shortMoney(manufacturedRuby) + " rub" + (manufacturedRuby > 1 ? "ies" : "y") }}</span><br>
+                          <span v-bind="buildingsOwned">{{ "Building" + (buildingsOwned > 1 ? "s" : "") + " owned : " + buildingsOwned }}</span><br>
+                          <span v-bind="CpS">Rubies per second : {{ CpS }}</span><br>
+                          <span v-bind="click">Rubies per click : {{ click }}</span><br>
+                          <span v-bind="rubyClick">Rubies clicks : {{ rubyClick }}</span>
+                        </v-card-text>
+                      </v-card>
+                    </v-flex>
+                  </v-layout>
+
+                  <!-- Bonus unlocked -->
+                  <v-subheader>Bonus unlocked</v-subheader>
+                  <v-layout row wrap text-xs-center elevation-2 style="background: white;">
+                    <v-list two-line>
+                      <v-list-tile avatar v-for="item in components.bonus" v-if="item.buy">
+                        <v-list-tile-avatar>
+                          <v-icon class="vj-fa material-icons icon">{{ "fa-" + item.icon }}</v-icon>
+                        </v-list-tile-avatar>
+                        <v-list-tile-content>
+                          <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+                          <v-list-tile-sub-title v-html="item.description"></v-list-tile-sub-title>
+                        </v-list-tile-content>
+                      </v-list-tile>
+                    </v-list>
+                  </v-layout>
                 </v-tabs-content>
               </v-tabs-items>
             </v-tabs>

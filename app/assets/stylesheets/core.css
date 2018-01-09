@@ -34,7 +34,7 @@
   height: 100%;
   border-radius: 50%;
   opacity: 0.90;
-  background: url("assets/cookie.png") no-repeat;
+  background: url("cookie.png") no-repeat;
   background-size: cover;
   cursor: pointer;
 }
@@ -56,12 +56,12 @@ div.ruby {
 }
 
 .simple-heart {
-  background: url("assets/ruby.png") no-repeat;
+  background: url("ruby.png") no-repeat;
   background-size: cover;
 }
 
 .special-heart {
-  background: url("assets/special_ruby.png") no-repeat;
+  background: url("special_ruby.png") no-repeat;
   background-size: cover;
 }
 

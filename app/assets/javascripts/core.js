@@ -1,3 +1,5 @@
+//= require vue.min
+//= require vuetify.min
 window.core = new Vue({
   el: "#rubyclicker",
   data: {

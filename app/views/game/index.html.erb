@@ -1,15 +1,14 @@
-<!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
     <title>Ruby Clicker</title>
+    <%= stylesheet_link_tag "default.css" %>
+    <%= stylesheet_link_tag "vuetify.min.css" %>
+    <%= stylesheet_link_tag "core.css" %>
     <link rel="icon" type="image/png" href="assets/ruby.png">
     <link href="https://fonts.googleapis.com/css?family=Risque" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="default.css">
-    <link rel="stylesheet" type="text/css" href="vuetify.min.css">
-    <link rel="stylesheet" type="text/css" href="core.css">
   </head>
   <body>
     <div id="rubyclicker">
@@ -164,8 +163,10 @@
       </v-app>
     </div>
 
-    <script type="text/javascript" src="vue.min.js"></script>
-    <script type="text/javascript" src="vuetify.min.js"></script>
-    <script type="text/javascript" src="core.js"></script>
-  </body>
+    <%= javascript_include_tag "vue.min"%>
+    <%= javascript_include_tag "vuetify.min"%>
+    <%= javascript_include_tag "core"%>
+
+
+    </body>
 </html>

@@ -1,0 +1,19 @@
+<h1>Choose your player :</h1>
+ 
+<table>
+  <tr>
+    <th>Pseudonyme</th>
+    <th>Rubies in bank</th>
+  </tr>
+ 
+  <% @players.each do |player| %>
+    <tr>
+      <td><%= player.pseudo %></td>
+      <td><%= player.ruby_count %></td>
+      <td><%= link_to 'Details', player_path(player) %></td>
+      <td><%= link_to 'Play !', game_frame_url(player) %></td>
+    </tr>
+  <% end %>
+</table>
+
+<%= link_to 'Hey I\'m new ! Create an account.'  , new_player_path %>

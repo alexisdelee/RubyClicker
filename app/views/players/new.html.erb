@@ -1,0 +1,10 @@
+<%= form_with scope: :player, url: players_path, local: true do |form| %>
+  <p>
+    <%= form.label :pseudo %><br>
+    <%= form.text_field :pseudo %>
+  </p>
+  
+  <p>
+    <%= form.submit %>
+  </p>
+<% end %>

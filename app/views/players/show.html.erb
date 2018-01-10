@@ -1,0 +1,15 @@
+<p>
+    <strong>Player :</strong>
+    <%= @player.pseudo %>
+</p>
+ 
+<p>
+    <strong>Rubies in bank :</strong>
+    <%= @player.ruby_count %>
+</p>
+<p>
+    <%= link_to 'Players list', players_path %>
+<p>
+<p>
+    <%= link_to 'Play with this one !', game_frame_url(player)   %>
+<p>

@@ -1,8 +1,11 @@
 //= require vue.min
 //= require vuetify.min
+//= require fetch
 window.core = new Vue({
   el: "#rubyclicker",
   data: {
+    idPlayer: -1,
+    time: 0,
     selectedMode: 0,
     click: 1,
     rubyClick: 0,
@@ -74,6 +77,15 @@ window.core = new Vue({
         { cost: 10000000000000000, description: "It's time to stop playing." }
       ]
     }
+  },
+  mounted: function() {
+    this.idPlayer = parseInt(window.location.pathname.split("/").filter((n) => {return n != "";}).pop());
+
+    /* fetch("/game/" + this.idPlayer + ".json", { method: "GET" }).then((response) => {
+      console.log(response);
+    }, (err) => {
+      console.error(err);
+    }); */
   },
   methods: {
     cumulativePrice(base, counter) {
@@ -159,6 +171,28 @@ window.core = new Vue({
 });
 
 setInterval(() => {
+  core.time++;
+
   core.ruby += core.CpS;
   core.manufacturedRuby += core.CpS;
+
+  if(core.time % 10 === 0) {
+    // updatePlayer();
+  }
 }, 1000);
+
+// debug
+function updatePlayer() {
+  let player = {
+    idPlayer: core.idPlayer,
+    click: core.click,
+    rubyClick: core.rubyClick,
+    ruby: core.ruby,
+    manufacturedRuby: core.manufacturedRuby,
+    CpS: core.CpS,
+    buildingsOwned: core.buildingsOwned
+  };
+
+  console.log(player);
+}
+// debug

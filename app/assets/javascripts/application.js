@@ -13,6 +13,7 @@
 //= require rails-ujs
 //= require turbolinks
 //= require_tree .
-//= require vue.min.js
+//= require vue.min
 //= require vuetify.min
+//= require fetch
 //= require core

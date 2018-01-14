@@ -12,6 +12,7 @@ Rails.application.config.assets.precompile += %w( default.css )
 Rails.application.config.assets.precompile += %w( core.css )
 Rails.application.config.assets.precompile += %w( vue.min.js )
 Rails.application.config.assets.precompile += %w( vuetify.min.js )
+Rails.application.config.assets.precompile += %w( fetch.js )
 Rails.application.config.assets.precompile += %w( core.js )
 
 # Precompile additional assets.

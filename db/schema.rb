@@ -10,11 +10,37 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180110215824) do
+ActiveRecord::Schema.define(version: 20180115194456) do
+
+  create_table "bonus", force: :cascade do |t|
+    t.string "icon"
+    t.string "name"
+    t.string "subtitle"
+    t.text "description"
+    t.bigint "cost"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "buildings", force: :cascade do |t|
+    t.string "icon"
+    t.string "name"
+    t.bigint "base_cost"
+    t.bigint "base_cookies_per_seconds"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "players", force: :cascade do |t|
     t.string "pseudo"
     t.integer "ruby_count"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "tickers", force: :cascade do |t|
+    t.bigint "trigger"
+    t.string "text"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180115194456) do
+ActiveRecord::Schema.define(version: 20180124005342) do
 
   create_table "bonus", force: :cascade do |t|
     t.string "icon"
@@ -36,6 +36,10 @@ ActiveRecord::Schema.define(version: 20180115194456) do
     t.integer "ruby_count"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "buildings_id"
+    t.integer "bonus_id"
+    t.index ["bonus_id"], name: "index_players_on_bonus_id"
+    t.index ["buildings_id"], name: "index_players_on_buildings_id"
   end
 
   create_table "tickers", force: :cascade do |t|

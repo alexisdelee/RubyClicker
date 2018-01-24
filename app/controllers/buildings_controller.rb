@@ -3,7 +3,7 @@ class BuildingsController < ApplicationController
     skip_before_action :verify_authenticity_token
 
     def index
-        @buildings = building.all
+        @buildings = Building.all
         json_response(@buildings)
     end
 
@@ -33,6 +33,6 @@ class BuildingsController < ApplicationController
     end
 
     def set_building
-        @building = building.find(params[:id])
+        @building = Building.find(params[:id])
     end
 end

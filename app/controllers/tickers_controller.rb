@@ -1,0 +1,2 @@
+class TickersController < ApplicationController
+end

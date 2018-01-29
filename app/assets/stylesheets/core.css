@@ -83,6 +83,10 @@ div.ruby span {
   margin-left: 7px;
 }
 
+i {
+  line-height: 43px;
+}
+
 @keyframes outruby {
   0% { opacity: 1; }
   100% { opacity: 0; }

@@ -8,7 +8,9 @@
     <%= stylesheet_link_tag "vuetify.min.css" %>
     <%= stylesheet_link_tag "core.css" %>
 
-    <link rel="icon" type="image/png" href="assets/ruby.png">
+    <%= favicon_link_tag "/assets/ruby.png", rel: "icon", type: "image/png" %>
+
+    <!-- <link rel="icon" type="image/png" href="/assets/ruby.png"> -->
     <link href="https://fonts.googleapis.com/css?family=Risque" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   </head>
@@ -85,7 +87,7 @@
                             <span v-html="components.bonus[selectedMode].description"></span>
                           </v-card-text>
                           <v-card-text>
-                             <v-btn v-if="!components.bonus[selectedMode].buy" color="error" @click="addBonus(components.bonus[selectedMode])">Buy for {{ shortMoney(components.bonus[selectedMode].cost) }} <img class="mini-ruby" src="assets/ruby.png"></v-btn>
+                             <v-btn v-if="!components.bonus[selectedMode].buy" color="error" @click="addBonus(components.bonus[selectedMode])">Buy for {{ shortMoney(components.bonus[selectedMode].cost) }} <img class="mini-ruby" src="/assets/ruby.png"></v-btn>
                           </v-card-text>
                         </v-card>
                       </v-flex>

@@ -17,7 +17,7 @@ class PlayersController < ApplicationController
         @player = Player.new(player_params)
         @player.ruby_count = 0
         @player.save
-        redirect_to @player
+        redirect_to players_path
     end
 
     def show
@@ -44,6 +44,6 @@ private
     end
 
     def player_params
-        params.require(:pseudo).permit(:pseudo)
+        params.require(:player).permit(:pseudo)
     end
 end

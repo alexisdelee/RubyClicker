@@ -81,8 +81,10 @@ window.core = new Vue({
   mounted: function() {
     this.idPlayer = parseInt(window.location.pathname.split("/").filter((n) => {return n != "";}).pop());
 
-    /* fetch("/game/" + this.idPlayer + ".json", { method: "GET" }).then((response) => {
-      console.log(response);
+    /* fetch("/players/" + this.idPlayer + ".json", { method: "GET" }).then((response) => {
+      response.json().then((message) => {
+        console.log(message);
+      });
     }, (err) => {
       console.error(err);
     }); */
@@ -183,16 +185,6 @@ setInterval(() => {
 
 // debug
 function updatePlayer() {
-  let player = {
-    idPlayer: core.idPlayer,
-    click: core.click,
-    rubyClick: core.rubyClick,
-    ruby: core.ruby,
-    manufacturedRuby: core.manufacturedRuby,
-    CpS: core.CpS,
-    buildingsOwned: core.buildingsOwned
-  };
-
-  console.log(player);
+  return JSON.parse(JSON.stringify(core.$data));
 }
 // debug

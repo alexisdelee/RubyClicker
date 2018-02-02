@@ -1,2 +1,0 @@
-class Bonus < ApplicationRecord
-end

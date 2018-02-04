@@ -1,19 +1,104 @@
-<h1>Choose your player :</h1>
- 
-<table>
-  <tr>
-    <th>Pseudonyme</th>
-    <th>Rubies in bank</th>
-  </tr>
- 
-  <% @players.each do |player| %>
-    <tr>
-      <td><%= player.pseudo %></td>
-      <td><%= player.ruby_count %></td>
-      <td><%= link_to 'Details', player_path(player) %></td>
-      <td><%= link_to 'Play !', game_frame_url(player) %></td>
-    </tr>
-  <% end %>
-</table>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+    <title>Ruby Clicker</title>
 
-<%= link_to 'Hey I\'m new ! Create an account.'  , new_player_path %>
+    <%= stylesheet_link_tag "default.css" %>
+    <%= stylesheet_link_tag "vuetify.min.css" %>
+
+    <%= favicon_link_tag "/assets/ruby.png", rel: "icon", type: "image/png" %>
+
+    <!-- <link rel="icon" type="image/png" href="/assets/ruby.png"> -->
+    <link href="https://fonts.googleapis.com/css?family=Risque" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  </head>
+  <body>
+    <div id="homepage">
+      <v-app>
+        <v-content>
+          <v-container class="bloc">
+            <h1 class="mb-4">
+              <center>Choose your player :</center>
+            </h1>
+         
+            <!-- <table>
+              <tr>
+                <th>Pseudonyme</th>
+                <th>Rubies in bank</th>
+              </tr>
+             
+              <% @players.each do |player| %>
+                <tr>
+                  <td><%= player.pseudo %></td>
+                  <td><%= player.ruby_count %></td>
+                  <td><%= link_to 'Details', player_path(player) %></td>
+                  <td><%= link_to 'Play !', game_frame_url(player) %></td>
+                </tr>
+              <% end %>
+            </table>
+
+            <%= link_to 'Hey I\'m new ! Create an account.'  , new_player_path %> -->
+
+            <v-data-table
+                v-bind:headers="headers"
+                :items="items"
+                class="elevation-1"
+              >
+              <template slot="headerCell" slot-scope="props">
+                <v-tooltip bottom>
+                  <span slot="activator">
+                    {{ props.header.text }}
+                  </span>
+                  <span>
+                    {{ props.header.text }}
+                  </span>
+                </v-tooltip>
+              </template>
+              <template slot="items" slot-scope="props">
+                <td>{{ props.item.pseudo }}</td>
+                <td class="text-xs-right">{{ props.item.ruby_count }}</td>
+                <td class="text-xs-right">{{ props.item.clicks }}</td>
+                <td class="text-xs-right" v-html="props.item.options"></td>
+              </template>
+            </v-data-table>
+
+            <v-alert class="mt-4" color="warning" icon="priority_high" dismissible v-model="alert" value="true">
+              Hey I'm new! <a href="<%= new_player_path %>">Create an account</a>.
+            </v-alert>
+          </v-container>
+        </v-content>
+      </v-app>
+    </div>
+
+    <%= javascript_include_tag "vue.min" %>
+    <%= javascript_include_tag "vuetify.min" %>
+
+    <script type="text/javascript">
+      var homepage = new Vue({
+        el: "#homepage",
+        data: {
+          alert: true,
+          headers: [
+            {
+              text: "Pseudonyme",
+              align: "left",
+              value: "pseudo"
+            },
+            { text: "Rubies in bank", value: "ruby_count" },
+            { text: "Total of clicks", value: "clicks" },
+            { text: "Options", value: "options" }
+          ],
+          items: <%= raw @players.to_json %>.map(player => {
+            player.options = 
+              "<a href=\"<%= Rails.application.routes.url_helpers.players_path %>/" + player.id + "\">Details</a>\
+              <br>\
+              <a href=\"/game/" + player.id + "\">Play</a>";
+            return player;
+          })
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,10 +1,59 @@
-<%= form_with scope: :player, url: players_path, local: true do |form| %>
-  <p>
-    <%= form.label :pseudo %><br>
-    <%= form.text_field :pseudo %>
-  </p>
-  
-  <p>
-    <%= form.submit %>
-  </p>
-<% end %>
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+    <title>Ruby Clicker</title>
+
+    <%= stylesheet_link_tag "default.css" %>
+    <%= stylesheet_link_tag "vuetify.min.css" %>
+
+    <%= favicon_link_tag "/assets/ruby.png", rel: "icon", type: "image/png" %>
+
+    <!-- <link rel="icon" type="image/png" href="/assets/ruby.png"> -->
+    <link href="https://fonts.googleapis.com/css?family=Risque" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	</head>
+	<body>
+		<div id="suscribe">
+      <v-app>
+        <v-content>
+          <v-container class="bloc">
+						<h1 class="mb-4">
+              <center>Create a new player :</center>
+            </h1>
+
+						<v-form action="<%= Rails.application.routes.url_helpers.players_path %>" accept-charset="UTF-8" method="POST" ref="form" lazy-validation>
+							<v-text-field name="player[pseudo]" label="Pseudo" v-model="pseudo" :rules="pseudoRules" required></v-text-field>
+							<v-btn v-on:click="submit($event)" name="commit" data-disable-with="Save Player" color="primary">Save Player</v-btn>
+						</v-form>
+					</v-container>
+				</v-content>
+			</v-app>
+		</div>
+
+		<%= javascript_include_tag "vue.min" %>
+    <%= javascript_include_tag "vuetify.min" %>
+
+    <script type="text/javascript">
+      var homepage = new Vue({
+        el: "#suscribe",
+        data: {
+        	value: true,
+        	pseudo: "",
+        	pseudoRules: [
+        		(v) => !!(v = v.trim()) || "Pseudo is required",
+        		(v) => (v = v.trim()) && v.length > 2 || "Pseudo must be more than 2 characters"
+        	]
+        },
+        methods: {
+        	submit: function(e) {
+        		if(this.$refs.form.validate()) {
+        			e.target.closest("form").submit();
+        		}
+        	}
+        }
+      });
+    </script>
+	</body>
+</html>

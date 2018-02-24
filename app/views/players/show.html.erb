@@ -1,4 +1,4 @@
-<p>
+<!-- <p>
     <strong>Player :</strong>
     <%= @player.pseudo %>
 </p>
@@ -12,4 +12,60 @@
 <p>
 <p>
     <%= link_to 'Play with this one !', game_frame_url(@player)   %>
-<p>
+<p> -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+    <title>Ruby Clicker</title>
+
+    <%= stylesheet_link_tag "default.css" %>
+    <%= stylesheet_link_tag "vuetify.min.css" %>
+
+    <%= favicon_link_tag "/assets/ruby.png", rel: "icon", type: "image/png" %>
+
+    <!-- <link rel="icon" type="image/png" href="/assets/ruby.png"> -->
+    <link href="https://fonts.googleapis.com/css?family=Risque" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  </head>
+  <body>
+    <div id="userpage">
+      <v-app>
+        <v-content>
+          <v-container class="bloc">
+            <v-layout>
+		      <v-flex xs12 sm6 offset-sm3>
+		        <v-card>
+		          <v-card-media src="/assets/player.jpg" height="422px"></v-card-media>
+		          <v-card-title primary-title>
+		            <div>
+		              <h3 class="headline mb-0"><%= @player.pseudo %></h3><br>
+		              <v-chip label color="red" text-color="white">
+				        <v-icon left>label</v-icon><%= "#{@player.ruby_count} rub" + (@player.ruby_count > 1 ? "ies" : "y") %>
+				      </v-chip>
+		            </div>
+		          </v-card-title>
+		          <v-card-actions>
+		            <v-btn flat color="orange" @click="window.location = '<%= players_path %>'">Players list</v-btn>
+		            <v-btn flat color="orange" @click="window.location = '<%= game_frame_url(@player) %>'">Play with this one!</v-btn>
+		          </v-card-actions>
+		        </v-card>
+		      </v-flex>
+		    </v-layout>
+          </v-container>
+        </v-content>
+      </v-app>
+    </div>
+
+    <%= javascript_include_tag "vue.min" %>
+    <%= javascript_include_tag "vuetify.min" %>
+
+    <script type="text/javascript">
+      var userpage = new Vue({
+        el: "#userpage"
+      });
+    </script>
+  </body>
+</html>

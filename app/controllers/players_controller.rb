@@ -21,7 +21,7 @@ class PlayersController < ApplicationController
     end
 
     def show
-        json_response(@player)
+        # json_response(@player)
     end
 
     def update

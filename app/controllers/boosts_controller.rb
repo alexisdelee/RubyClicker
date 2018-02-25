@@ -1,38 +1,38 @@
-class BonusController < ApplicationController
+class BoostsController < ApplicationController
     before_action :set_bonus, only: [:show, :update, :destroy]
     skip_before_action :verify_authenticity_token
 
     def index
-        @bonus = Bonus.all
-        json_response(@bonus)
+        @boosts = Boost.all
+        json_response(@boosts)
     end
 
     def create
-        @bonus = Bonus.create!(bonus_params)
-        json_response(@bonus, :created)
+        @boosts = Boost.create!(boosts_params)
+        json_response(@boosts, :created)
     end
 
     def show
-        json_response(@bonus)
+        json_response(@boosts)
     end
 
     def update
-        @bonus.update(bonus_params)
+        @boosts.update(boosts_params)
         head :no_content
     end
 
     def destroy
-        @bonus.destroy
+        @boosts.destroy
         head :no_content
     end
 
     private
 
-    def bonus_params
+    def boosts_params
         params.permit(:trigger, :text)
     end
 
     def set_bonus
-        @bonus = Bonus.find(params[:id])
+        @boosts = Boost.find(params[:id])
     end
 end

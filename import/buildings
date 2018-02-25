@@ -1,0 +1,76 @@
+buildings = [
+  {
+    icon: "mouse-pointer",
+    title: "Cursor",
+    base_cost: 18,
+    base_generation: 0.1
+  },
+  {
+    icon: "diamond",
+    title: "Jeweler",
+    base_cost: 100,
+    base_generation: 1
+  },
+  {
+    icon: "magnet",
+    title: "Mine",
+    base_cost: 1100,
+    base_generation: 8
+  },
+  {
+    icon: "industry",
+    title: "Factory",
+    base_cost: 12000,
+    base_generation: 47
+  },
+  {
+    icon: "money",
+    title: "Bank",
+    base_cost: 130000,
+    base_generation: 260
+  },
+  {
+    icon: "university",
+    title: "Temple",
+    base_cost: 1400000,
+    base_generation: 1400
+  },
+  {
+    icon: "building-o",
+    title: "Wizard Tower",
+    base_cost: 20000000,
+    base_generation: 7800
+  },
+  {
+    icon: "ship",
+    title: "Shipment",
+    base_cost: 330000000,
+    base_generation: 44000
+  },
+  {
+    icon: "flask",
+    title: "Alchemy Lab",
+    base_cost: 5100000000,
+    base_generation: 260000
+  },
+  {
+    icon: "magic",
+    title: "Portal",
+    base_cost: 75000000000,
+    base_generation: 1600000
+  },
+  {
+    icon: "clock-o",
+    title: "Time Machine",
+    base_cost: 1000000000000,
+    base_generation: 10000000
+  },
+  {
+    icon: "free-code-camp",
+    title: "Antimatter Condenser",
+    base_cost: 14000000000000,
+    base_generation: 65000000
+  }
+]
+
+Building.create(buildings)

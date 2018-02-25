@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180202174946) do
+ActiveRecord::Schema.define(version: 20180225211710) do
 
   create_table "boost_players", force: :cascade do |t|
     t.integer "player_id"
@@ -39,7 +39,7 @@ ActiveRecord::Schema.define(version: 20180202174946) do
   create_table "buildings", force: :cascade do |t|
     t.string "icon"
     t.string "title"
-    t.integer "base_cost"
+    t.bigint "base_cost"
     t.float "base_generation"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -47,14 +47,14 @@ ActiveRecord::Schema.define(version: 20180202174946) do
 
   create_table "players", force: :cascade do |t|
     t.string "pseudo"
-    t.integer "ruby_count"
+    t.bigint "ruby_count"
     t.integer "clicks"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "tickers", force: :cascade do |t|
-    t.integer "cost"
+    t.bigint "cost"
     t.text "text"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

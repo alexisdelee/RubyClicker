@@ -21,6 +21,11 @@ class PlayersController < ApplicationController
     end
 
     def show
+        respond_to do |format|
+            format.html
+            # format.json { json_response(@player) }
+            format.json { render :json => @player.to_json( :include => [:buildings, :boosts] ) }
+        end
         # json_response(@player)
     end
 

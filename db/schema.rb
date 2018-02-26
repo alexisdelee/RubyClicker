@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180225211710) do
+ActiveRecord::Schema.define(version: 20180226202101) do
 
   create_table "boost_players", force: :cascade do |t|
     t.integer "player_id"
@@ -24,9 +24,10 @@ ActiveRecord::Schema.define(version: 20180225211710) do
     t.string "title"
     t.string "subtitle"
     t.text "description"
-    t.integer "base_cost"
+    t.bigint "base_cost"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "related"
   end
 
   create_table "building_players", force: :cascade do |t|

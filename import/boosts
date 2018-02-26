@@ -1,0 +1,9 @@
+Boost.create :icon => "star", :title => "First day", :subtitle => "", :description => "Welcome gift.", :base_cost => -1, :related => Building.where(icon:"mouse-pointer").select(:id).take.id
+
+Boost.create :icon => "mouse-pointer", :title => "Reinforced index finder", :subtitle => "[upgrade]", :description => "The mouse and cursors are <strong>twice</strong> as efficient..", :base_cost => 100, :related => Building.where(icon:"diamond").select(:id).take.id
+
+Boost.create :icon => "mouse-pointer", :title => "Carpal tunnel prevention cream", :subtitle => "[upgrade]", :description => "The mouse and cursors are <strong>twice</strong> as efficient.", :base_cost => 500, :related => Building.where(icon:"diamond").select(:id).take.id
+
+Boost.create :icon => "diamond", :title => "Forwards for jeweler", :subtitle => "[upgrade]", :description => "Jewelers are <strong>twice</strong> as efficient.", :base_cost => 1000, :related => Building.where(icon:"magnet").select(:id).take.id
+
+Boost.create :icon => "diamond", :title => "Steel-plated rolling pins", :subtitle => "[upgrade]", :description => "Jewelers are <strong>twice</strong> as efficient.", :base_cost => 5000, :related => Building.where(icon:"magnet").select(:id).take.id

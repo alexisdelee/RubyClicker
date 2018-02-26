@@ -48,7 +48,7 @@
                       <v-flex>
                         <v-card flat tile dark>
                           <v-card-text>
-                            <center>&#171; {{ components.tickers.filter((ticker) => { return manufacturedRuby >= ticker.cost }).slice(-1).pop().description }} &#187;</center>
+                            <center>&#171; {{ (components.tickers.filter((ticker) => { return manufacturedRuby >= ticker.cost }).slice(-1).pop() || { description: "" }).description }} &#187;</center>
                           </v-card-text>
                         </v-card>
                       </v-flex>

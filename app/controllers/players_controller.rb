@@ -16,7 +16,12 @@ class PlayersController < ApplicationController
     def create
         @player = Player.new(player_params)
         @player.ruby_count = 0
+        @player.clicks = 0
         @player.save
+
+        @boost = Boost.where(base_cost:-1).first
+        @boost.players << @player
+
         redirect_to players_path
     end
 
@@ -31,7 +36,10 @@ class PlayersController < ApplicationController
 
     def update
         @player.update(json_player_params)
-        head :no_content
+
+        respond_to do |format|
+            format.json { render :json => @player.to_json( :include => [:buildings, :boosts] ) }
+        end
     end
 
     def destroy
@@ -45,7 +53,7 @@ private
     end
 
     def json_player_params
-        params.permit(:pseudo, :ruby_count, :buildings_id, :bonus_id)
+        params.permit(:pseudo, :ruby_count, :clicks)
     end
 
     def player_params

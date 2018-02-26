@@ -17,8 +17,15 @@ class BoostsController < ApplicationController
     end
 
     def update
-        @boosts.update(boosts_params)
-        head :no_content
+        # @boosts.update(boosts_params)
+        # head :no_content
+
+        @boost = Boost.find(params[:id])
+        @boost.players << Player.find(params[:player_id])
+
+        respond_to do |format|
+            format.json { render :json => Player.find(params[:player_id]).to_json( :include => [:buildings, :boosts] ) }
+        end
     end
 
     def destroy

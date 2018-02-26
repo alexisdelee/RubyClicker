@@ -16,7 +16,7 @@ window.core = new Vue({
     buildingsOwned: 0,
     components: {
       bonus: [
-        { id: 0, icon: "star", related: 0, title: "First day", subtitle: "", description: "Welcome gift.", cost: -1, active: true, buy: true },
+        /* { id: 0, icon: "star", related: 0, title: "First day", subtitle: "", description: "Welcome gift.", cost: -1, active: true, buy: true },
         { id: 1, icon: "mouse-pointer", related: 0, title: "Reinforced index finder", subtitle: "[upgrade]", description: "The mouse and cursors are <strong>twice</strong> as efficient.", cost: 100, active: false, buy: false },
         { id: 2, icon: "mouse-pointer", related: 0, title: "Carpal tunnel prevention cream", subtitle: "[upgrade]", description: "The mouse and cursors are <strong>twice</strong> as efficient.", cost: 500, active: false, buy: false },
         { id: 3, icon: "diamond", related: 1, title: "Forwards for jeweler", subtitle: "[upgrade]", description: "Jewelers are <strong>twice</strong> as efficient.", cost: 1000, active: false, buy: false },
@@ -33,7 +33,7 @@ window.core = new Vue({
         { id: 14, icon: "university", related: 5, title: "Taller tellers", subtitle: "[upgrade]", description: "Temples are <strong>twice</strong> as efficient.", cost: 14000000, active: false, buy: false },
         { id: 15, icon: "university", related: 5, title: "Scissor-resistant credit cards", subtitle: "[upgrade]", description: "Temples are <strong>twice</strong> as efficient.", cost: 70000000, active: false, buy: false },
         { id: 16, icon: "building-o", related: 6, title: "Golden idols", subtitle: "[upgrade]", description: "Wizard Towers are <strong>twice</strong> as efficient.", cost: 200000000, active: false, buy: false },
-        { id: 17, icon: "building-o", related: 6, title: "Sacrifices", subtitle: "[upgrade]", description: "Wizard Towers are <strong>twice</strong> as efficient.", cost: 1000000000, active: false, buy: false }
+        { id: 17, icon: "building-o", related: 6, title: "Sacrifices", subtitle: "[upgrade]", description: "Wizard Towers are <strong>twice</strong> as efficient.", cost: 1000000000, active: false, buy: false } */
       ],
       buildings: [],
       tickers: []
@@ -48,16 +48,38 @@ window.core = new Vue({
     // get all buildings
     fetch("/buildings", { method: "GET" }).then((response) => {
       response.json().then((buildings) => {
-        buildings.forEach((building) => {
+        buildings.forEach((building, index) => {
           that.components.buildings.push(
             {
               id: building.id,
+              alternativeID: index,
               icon: building.icon,
               title: building.title,
               cost: building.base_cost,
               CpS: building.base_generation,
               counter: 0,
               active: false
+            }
+          );
+        });
+      });
+    }, (err) => {
+      console.error(err);
+    });
+
+    // get all boosts
+    fetch("/boosts", { method: "GET" }).then((response) => {
+      response.json().then((boosts) => {
+        boosts.forEach((boost, index) => {
+          that.components.bonus.push(
+            {
+              id: boost.id,
+              icon: boost.icon,
+              related: boost.related,
+              title: boost.title,
+              subtitle: boost.subtitle,
+              description: boost.description,
+              cost: boost.base_cost
             }
           );
         });
@@ -86,15 +108,9 @@ window.core = new Vue({
     fetch("/players/" + that.idPlayer + ".json", { method: "GET" }).then((players) => {
       players.json().then((player) => {
         console.log(player);
-        that.clicks = player.clicks ? player.clicks : 0;
         that.pseudo = player.pseudo;
-        that.rubyClick = player.ruby_count;
-
-        // debug
-        /* that.ruby = 10000000000;
-        player.buildings.push({ id: 7 });
-        player.boosts.push({ related: 7 }); */
-        // debug
+        that.rubyClick = player.clicks;
+        that.ruby = player.ruby_count;
 
         // update buildings
         if(player.buildings.length) {
@@ -104,7 +120,7 @@ window.core = new Vue({
             });
 
             if(id != -1) {
-              that.components.buildings[id].counter++;
+              that.addItem(that.components.buildings[id], true);
             }
           });
         }
@@ -113,11 +129,14 @@ window.core = new Vue({
         if(player.boosts.length) {
           player.boosts.forEach((bonus) => {
             let id = that.components.buildings.findIndex((pBuilding) => {
-              return bonus.related == pBuilding.id;
+              return bonus.related == pBuilding.alternativeID;
             });
 
             if(id != -1) {
-              that.components.bonus[id].buy = true;
+              // that.components.bonus[id].buy = true;
+              that.addBonus(that.components.bonus[
+                that.components.bonus.findIndex(bonus => bonus.related == id)
+              ], true);
             }
           });
         }
@@ -179,12 +198,16 @@ window.core = new Vue({
         item.active = true;
       }
     },
-    addItem(item) {
+    addItem(item, init = false) {
       if(this.ruby >= this.cumulativePrice(item.cost, item.counter)) {
         this.ruby -= this.cumulativePrice(item.cost, item.counter);
         this.CpS += item.CpS;
         this.buildingsOwned++;
         item.counter += 1;
+
+        if(!init) {
+          updateBuilding(item.id);
+        }
       }
     },
     showBonus(item) {
@@ -192,18 +215,22 @@ window.core = new Vue({
         item.active = true;
       }
     },
-    addBonus(item) {
+    addBonus(item, init = false) {
       let that = this;
 
       if(this.ruby >= item.cost) {
         this.components.buildings.filter((element) => {
-          return element.id == item.related;
+          return element.alternativeID == item.related;
         }).forEach((offer) => {
           offer.CpS *= 2;
         });
 
         this.ruby -= item.cost;
         item.buy = true;
+
+        if(!init) {
+          updateBonus(item.id);
+        }
       }
     }
   }
@@ -215,25 +242,42 @@ setInterval(() => {
   core.ruby += core.CpS;
   core.manufacturedRuby += core.CpS;
 
-  if(core.time % 10 === 0) {
+  if(core.time && core.time % 10 === 0) {
     updatePlayer();
   }
 }, 1000);
 
 function updatePlayer() {
-  fetch("/players/" + core.idPlayer + ".json", {
-    method: "POST",
-    data: JSON.stringify(
-      {
-        id: core.idPlayer,
-        clicks: core.clicks,
-        pseudo: core.pseudo,
-        idBuildings: core.components.buildings.map(building => building.id),
-        idBoosts: core.components.bonus.map(bonus => bonus.id)
-      }
-    )
+  fetch("/players/" + core.idPlayer + ".json?pseudo=" + core.pseudo + "&ruby_count=" + core.ruby + "&clicks=" + core.rubyClick, {
+    method: "PUT",
   }).then((response) => {
-    // do something
+    /* response.json().then((data) => {
+      console.log(data);
+    }); */
+  }, (err) => {
+    console.error(err);
+  });
+}
+
+function updateBuilding(idBuilding) {
+  fetch("/buildings/" + idBuilding + ".json?player_id=" + core.idPlayer, {
+    method: "PUT",
+  }).then((response) => {
+    /* response.json().then((data) => {
+      console.log(data);
+    }); */
+  }, (err) => {
+    console.error(err);
+  });
+}
+
+function updateBonus(idBonus) {
+  fetch("/boosts/" + idBonus + ".json?player_id=" + core.idPlayer, {
+    method: "PUT",
+  }).then((response) => {
+    /* response.json().then((data) => {
+      console.log(data);
+    }); */
   }, (err) => {
     console.error(err);
   });

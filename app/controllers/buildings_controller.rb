@@ -17,8 +17,15 @@ class BuildingsController < ApplicationController
     end
 
     def update
-        @building.update(building_params)
-        head :no_content
+        # @building.update(building_params)
+        # head :no_content
+
+        @building = Building.find(params[:id])
+        @building.players << Player.find(params[:player_id])
+
+        respond_to do |format|
+            format.json { render :json => Player.find(params[:player_id]).to_json( :include => [:buildings, :boosts] ) }
+        end
     end
 
     def destroy

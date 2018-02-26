@@ -46,6 +46,8 @@ window.core = new Vue({
     that.manufacturedRuby = 0;
 
     // get all buildings
+    if(isNaN(that.idPlayer)) return; // fix bug homepage
+
     fetch("/buildings", { method: "GET" }).then((response) => {
       response.json().then((buildings) => {
         buildings.forEach((building, index) => {
@@ -113,7 +115,7 @@ window.core = new Vue({
         that.ruby = player.ruby_count;
 
         // update buildings
-        if(player.buildings.length) {
+        if(player.buildings && player.buildings.length) {
           player.buildings.forEach((building) => {
             let id = that.components.buildings.findIndex((pBuilding) => {
               return pBuilding.id == building.id;
@@ -126,7 +128,7 @@ window.core = new Vue({
         }
 
         // update boosts
-        if(player.boosts.length) {
+        if(player.boosts && player.boosts.length) {
           player.boosts.forEach((bonus) => {
             let id = that.components.buildings.findIndex((pBuilding) => {
               return bonus.related == pBuilding.alternativeID;
